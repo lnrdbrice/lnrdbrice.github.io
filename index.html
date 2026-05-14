@@ -261,6 +261,7 @@
         
         // Add country polygons to map
         L.geoJSON(features, {
+          antimeridian: true,
           style: function(feature) {
             const countryCode = getCountryCode(feature);
             const hasCoauthors = coauthorsByCountry[countryCode];
