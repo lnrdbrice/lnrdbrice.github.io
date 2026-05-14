@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <meta name="description" content="Equilibria - Research by Léonard Brice">
+  <title>Equilibria — Léonard Brice</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="favicon.ico">
+</head>
+<body>
+  <header>
+    <div class="profile-photo">
+      <img src="photo.jpeg" alt="Léonard Brice">
+    </div>
+    <div class="header-content">
+      <h1>Léonard Brice</h1>
+      <p>theoretical computer science and game theory</p>
+      <div class="contact-icons">
+        <a href="https://orcid.org/0000-0001-7748-7716" target="_blank" title="ORCID">
+          <img src="svgviewer-output.svg" alt="ORCID" class="icon">
+        </a>
+        <a href="https://scholar.google.com/citations?user=lnrd.brice" target="_blank" title="Google Scholar">
+          <img src="google-scholar.svg" alt="Google Scholar" class="icon">
+        </a>
+        <a href="mailto:leonard.brice@ist.ac.at" title="Email">
+          <img src="email.svg" alt="Email" class="icon">
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="index.html#research">Back to Research</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <section>
+      <h2>Equilibria</h2>
+      <p>When studying multiplayer games, where the players' objectives may overlap, a natural question is to ask whether there exists a stable situation, where no player has an incentive to deviate.
+        Such situations are called <em>equilibria</em>.</p>
+
+      <h3>Nash equilibria</h3>
+      <p>
+        The most classical notion of equilibrium is the <em>Nash equilibrium</em>, where no player can improve their outcome by changing their own strategy, if the other players keep their strategies fixed.
+        Nash equilibria were extensively studied in the literature.
+        However, I contributed to this line of work with results about the complexity of Nash equilibria in energy and in discounted-sum games (MFCS 2023).
+        More recently, we studied the complexity of stationary Nash equilibria in stochastic games, by proposing a new approximation algorithm (FSTTCS 2025).
+      </p>
+      <ul>
+        <li>L. Brice, J.-F. Raskin, M. van den Bogaard, "Rational Verification and Checking for Nash and Subgame-perfect Equilibria in Graph Games", MFCS 2023 <a href="https://arxiv.org/pdf/2301.12913" target="_blank">(ArXiv)</a></li>
+        <li>A. Asadi, L. Brice, K. Chatterjee, K. S. Thejaswini, "ε-Stationary Nash Equilibria in Multi-player Stochastic Graph Games", FSTTCS 2025 <a href="https://arxiv.org/pdf/2508.15356" target="_blank">(ArXiv)</a></li>
+      </ul>
+
+      <h3>Subgame-perfect equilibria</h3>
+      <p>
+        An significant part of my PhD focused on a refinement of Nash equilibria, called <em>subgame-perfect equilibria</em> (SPEs).
+        Those are defined as Nash equilibria with the additional requirement that the strategies that the players plan to follow, after any possible history of the game, must also form a Nash equilibrium in the subgame.
+        With J.-F. Raskin and M. van den Bogaard, we defined the <em>negotiation function</em> (LMCS 2023), a conceptual and algorithmic tool to characterise the set of SPE outcomes in a game.
+        That lead to results about the complexity of SPEs in parity games (CSL 2022) and mean-payoff games (ICALP 2022).
+        We also studied related rational verification problems in those games, as well as in energy and discounted-sum games (MFCS 2023).
+      </p>
+      <ul>
+        <li>L. Brice, J.-F. Raskin, M. van den Bogaard, "Subgame-perfect Equilibria in Mean-payoff Games", CONCUR 2021 <a href="https://arxiv.org/pdf/2101.10685" target="_blank">(ArXiv)</a> and LMCS 2023 <a href="https://arxiv.org/pdf/2202.05626" target="_blank">(ArXiv)</a></li>
+        <li>L. Brice, J.-F. Raskin, M. van den Bogaard, "On the Complexity of SPEs in Parity Games", CSL 2022 <a href="https://arxiv.org/pdf/2107.07458" target="_blank">(ArXiv)</a></li>
+        <li>L. Brice, J.-F. Raskin, M. van den Bogaard, "The Complexity of SPEs in Mean-payoff Games", ICALP 2022 <a href="https://arxiv.org/pdf/2202.08499" target="_blank">(ArXiv)</a></li>
+        <li>L. Brice, J.-F. Raskin, M. van den Bogaard, "Rational Verification and Checking for Nash and Subgame-perfect Equilibria in Graph Games", MFCS 2023 <a href="https://arxiv.org/pdf/2301.12913" target="_blank">(ArXiv)</a></li>
+      </ul>
+
+      <h3>Strong secure equilibria</h3>
+      <p>
+        With my PhD advisors and in collaboration with M. Sassolas and G. Scerri, we studied possible applications of game theory to the design of secure communication protocols.
+        In that context, we introduced a new notion of equilibrium, called <em>strong secure equilibrium</em> (CSF 2025).
+        A strong secure equilibrium is a strategy profile from which no coalition of players can deviate in a way that decreases the payoff of another player, without decreasing the payoff of any player in the coalition.
+        We studied the complexity of those problems in multiplayer games with payoffs defined with a parity condition, or with an external parity automaton.
+      </p>
+      <ul>
+        <li>L. Brice, J.-F. Raskin, M. Sassolas, G. Scerri, M. van den Bogaard, "Pessimism of the Will, Optimism of the Intellect: Fair Protocols with Malicious but Rational Agents", CSF 2025 <a href="https://arxiv.org/abs/2501.04527" target="_blank">(ArXiv)</a></li>
+      </ul>
+
+      <h3>Risk-sensitive equilibria</h3>
+      <p>
+        In collaboration with T. Henzinger and K. Thejaswini, we studied a new notion of equilibrium, called <em>risk-sensitive equilibrium</em> (MFCS 2025).
+        This concept is relevant in stochastic games, or when players are allowed to use randomised strategies.
+        In such situation, one usually considers the expected payoff of a player, but that does not capture the risk that the player is willing to take.
+        Risk-sensitive equilibria are defined from a partition of players, assuming that some are <em>pessimists</em>, and some <em>optimists</em>; they are strategy profiles from which no pessimist can improve their worst-case payoff, and no optimist can improve their best-case payoff.
+      </p>
+      <ul>
+        <li>L. Brice, T. Henzinger, K. S. Thejaswini, "Finding equilibria: simpler for pessimists, simplest for optimists", MFCS 2025 <a href="https://arxiv.org/pdf/2502.05316" target="_blank">(ArXiv)</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Dr. Léonard Brice. All rights reserved.</p>
+  </footer>
+</body>
+</html>
