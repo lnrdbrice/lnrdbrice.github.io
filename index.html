@@ -206,8 +206,10 @@
   </footer>
 
   <script>
-  // Initialize map
-  const map = L.map('map').setView([20, 0], 2);
+    // Initialize map
+  const map = L.map('map', {
+    renderer: L.canvas()
+  }).setView([20, 0], 2);
 
   // Add tile layer
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
