@@ -91,6 +91,72 @@ h2 {
 .cv-link:hover {
   background: #800020;
 }
+
+/* Research Topics Cards */
+.research-topics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin: 30px 0;
+}
+
+.research-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(128, 0, 32, 0.12);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  height: 320px;
+  aspect-ratio: 4/5;
+}
+
+.research-item:hover {
+  box-shadow: 0 8px 24px rgba(128, 0, 32, 0.2);
+  transform: translateY(-4px);
+}
+
+.research-item a {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
+  overflow: hidden;
+}
+
+.research-item img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.research-item:hover img {
+  transform: scale(1.08);
+}
+
+.research-item h3 {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: 20px;
+  color: #fff;
+  font-size: 1.4em;
+  font-weight: 600;
+  background: linear-gradient(to top, rgba(128, 0, 32, 0.95), rgba(128, 0, 32, 0.7) 60%, transparent);
+  transition: background 0.3s ease, padding-bottom 0.3s ease;
+}
+
+.research-item:hover h3 {
+  background: linear-gradient(to top, rgba(128, 0, 32, 1), rgba(128, 0, 32, 0.85) 60%, transparent);
+  padding-bottom: 24px;
+}
+
 footer {
   text-align: center;
   background: #800020;
@@ -98,6 +164,7 @@ footer {
   padding: 14px 0;
   margin-top: 40px;
 }
+
 @media (max-width: 600px) {
   header {
     flex-direction: column;
@@ -109,5 +176,15 @@ footer {
   }
   main {
     padding: 14px 4px;
+  }
+  .research-topics {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .research-item {
+    height: 280px;
+  }
+  .research-item h3 {
+    font-size: 1.2em;
   }
 }
