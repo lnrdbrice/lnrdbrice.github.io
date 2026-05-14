@@ -43,7 +43,7 @@
     <section id="about">
       <h2>About Me</h2>
       <p>I am a researcher in theoretical computer science, currently post-doc at Institute of Science and Technology Austria, in the group lead by Thomas A. Henzinger.
-        I hold a Master's degree from ENS Paris-Saclay (France), and a PhD from Université libre de Bruxelles (Belgium), realised under the supervision of Jean-François Raskin and Marie van den Bogaard.
+        I hold a Master's degree from ENS Paris-Saclay (France), and a PhD from Université libre de Bruxelles (Belgium), realised under the supervision of Jean-François Raskin and Marie van den Boga[...]
         My research focuses on game theory, with applications to formal verification and synthesis of reactive systems, secure protocols, and more generally multi-agent systems.
       </p>
       <p><b>Pronouns:</b> He/him</p>
@@ -55,103 +55,41 @@
       <p>
         My research focuses on games.
         Games are a convenient abstract model for the interaction of several agents with different objectives.
-        In computer science, they are typically used to model the interaction between a computer-controlled system and its environment: if one wishes to program the system so that it enforces some property whatever happens in the environment, that challenge amounts to searching for a <em>winning strategy</em> in the corresponding game.
+        In computer science, they are typically used to model the interaction between a computer-controlled system and its environment: if one wishes to program the system so that it enforces some pro[...]
         I usually more sophisticated settings, with more than two players, in order to model <em>multi-agent systems</em>.
       </p>
 
-      <p><b>My PhD thesis:</b> L. Brice, <em>Equilibria in Multiplayer Graph Games: An Algorithmic Study</em> <a href="https://difusion.ulb.ac.be/vufind/Record/ULB-DIPOT:oai:dipot.ulb.ac.be:2013/391811/Holdings" target="_blank">(ULB)</a></p>
+      <p><b>My PhD thesis:</b> L. Brice, <em>Equilibria in Multiplayer Graph Games: An Algorithmic Study</em> <a href="https://difusion.ulb.ac.be/vufind/Record/ULB-DIPOT:oai:dipot.ulb.ac.be:2013/39181[...]
 
-      <h3>Team-versus-one games</h3>
-      <p>
-        Recently, my work focus on settings in which a team of players, for example representing a decentralised computer-controlled system, competes against an environment.
-        Those players are limited in how they can communicate, and in particular, in settings in which randomised strategies are necessary to maximise their chances (think of rock-paper-scissors), they cannot resort to a common private source of randomness.
-        This contrasts, for example, with the semantics of logics such as Randomised (or Probabilistic) Alternating Temporal Logic (RATL, PATL), in which one can express the fact that a given coalition can enforce a given specification, but implicitely assuming that they can randomise jointly, which amounts to merging them into a single player.
-        We defined an extension of those logics, <em>Individually Randomised Alternating Temporal Logic</em> (IRATL), and showed that a fragment of it, in concurrent graph games, is decidable in PSPACE (CAV 2026).
-        We also proposed a formalism called <em>dicey games</em>, to capture settings in which players may resort to sources of randomness that are shared, but only among a given subset of the team (LICS 2026).
-        We studied such games in a one-shot setting.
-      </p>
-      <ul>
-        <li>L. Brice, T. Henzinger, K. S. Thejaswini, "Dicey Games: Shared Sources of Randomness in Distributed Systems", to be published in LICS 2026 <a href="https://arxiv.org/abs/2601.18303" target="_blank">(ArXiv)</a></li>
-        <li>L. Brice, T. Henzinger, A. Montaseri, A. Shafiee, K. S. Thejaswini, "Randomise Alone, Reach as a Team", to be published in CAV 2026 <a href="https://arxiv.org/abs/2603.07094" target="_blank">(ArXiv)</a></li>
-      </ul>
-      
-      <h3>Equilibria</h3>
-      <p>When studying multiplayer games, where the players' objectives may overlap, a natural question is to ask whether there exists a stable situation, where no player has an incentive to deviate.
-        Such situations are called <em>equilibria</em>.</p>
-        
-      <p><h4>Nash equilibria  </h4>
-        The most classical notion of equilibrium is the <em>Nash equilibrium</em>, where no player can improve their outcome by changing their own strategy, if the other players keep their strategies unchanged.
-        Nash equilibria were extensively studied in the literature.
-        However, I contributed to this line of work with results about the complexity of Nash equilibria in energy and in discounted-sum games (MFCS 2023).
-        More recently, we studied the complexity of stationary Nash equilibria in stochastic games, by proposing a new approximation algorithm (FSTTCS 2025).
-      </p>
-      <ul>
-        <li>L. Brice, J.-F. Raskin, M. van den Bogaard, "Rational Verification and Checking for Nash and Subgame-perfect Equilibria in Graph Games", MFCS 2023 <a href="https://arxiv.org/pdf/2301.12913" target="_blank">(ArXiv)</a></li>
-        <li>A. Asadi, L. Brice, K. Chatterjee, K. S. Thejaswini, "ε-Stationary Nash Equilibria in Multi-player Stochastic Graph Games", FSTTCS 2025 <a href="https://arxiv.org/pdf/2508.15356" target="_blank">(ArXiv)</a></li>
-      </ul>
-      
-      <p><h4>Subgame-perfect equilibria  </h4>
-        An significant part of my PhD focused on a refinement of Nash equilibria, called <em>subgame-perfect equilibria</em> (SPEs).
-        Those are defined as Nash equilibria with the additional requirement that the strategies that the players plan to follow, after any possible history of the game, must also form a Nash equilibrium: the players are then not allowed to threaten each other with irrational behaviour.
-        With J.-F. Raskin and M. van den Bogaard, we defined the <em>negotiation function</em> (LMCS 2023), a conceptual and algorithmic tool to characterise the set of SPE outcomes in a game.
-        That lead to results about the complexity of SPEs in parity games (CSL 2022) and mean-payoff games (ICALP 2022).
-        We also studied related rational verification problems in those games, as well as in energy and discounted-sum games (MFCS 2023).
-      </p>
-      <ul>
-        <li>L. Brice, J.-F. Raskin, M. van den Bogaard, "Subgame-perfect Equilibria in Mean-payoff Games", CONCUR 2021 <a href="https://arxiv.org/pdf/2101.10685" target="_blank">(ArXiv)</a> and LMCS 2023 <a href="https://lmcs.episciences.org/12466/pdf" target="_blank">(LMCS)</a></li>
-        <li>L. Brice, J.-F. Raskin, M. van den Bogaard, "On the Complexity of SPEs in Parity Games", CSL 2022 <a href="https://arxiv.org/pdf/2107.07458" target="_blank">(ArXiv)</a></li>
-        <li>L. Brice, J.-F. Raskin, M. van den Bogaard, "The Complexity of SPEs in Mean-payoff Games", ICALP 2022 <a href="https://arxiv.org/pdf/2202.08499" target="_blank">(ArXiv)</a></li>
-        <li>L. Brice, J.-F. Raskin, M. van den Bogaard, "Rational Verification and Checking for Nash and Subgame-perfect Equilibria in Graph Games", MFCS 2023 <a href="https://arxiv.org/pdf/2301.12913" target="_blank">(ArXiv)</a></li>
-      </ul>
-      
-      <p><h4>Strong secure equilibria  </h4>
-        With my PhD advisors and in collaboration with M. Sassolas and G. Scerri, we studied possible applications of game theory to the design of secure communication protocols.
-        In that context, we introduced a new notion of equilibrium, called <em>strong secure equilibrium</em> (CSF 2025).
-        A strong secure equilibrium is a strategy profile from which no coalition of players can deviate in a way that decreases the payoff of another player, without decreasing the payoff of any player in the coalition.
-        We studied the complexity of those problems in multiplayer games with payoffs defined with a parity condition, or with an external parity automaton.
-      </p>
-      <ul>
-        <li>L. Brice, J.-F. Raskin, M. Sassolas, G. Scerri, M. van den Bogaard, "Pessimism of the Will, Optimism of the Intellect: Fair Protocols with Malicious but Rational Agents", CSF 2025 <a href="https://arxiv.org/pdf/2405.18958" target="_blank">(ArXiv)</a></li>
-      </ul>
-      
-      <p><h4>Risk-sensitive equilibria  </h4>
-        In collaboration with T. Henzinger and K. Thejaswini, we studied a new notion of equilibrium, called <em>risk-sensitive equilibrium</em> (MFCS 2025).
-        This concept is relevant in stochastic games, or when players are allowed to use randomised strategies.
-        In such situation, one usually considers the expected payoff of a player, but that does not capture the risk that the player is willing to take.
-        Risk-sensitive equilibria are defined from a partition of players, assuming that some are <em>pessimists</em>, and some <em>optimists</em>; they are strategy profiles from which no pessimist (resp. optimist) can deviate and improve the least (resp. greatest) payoff they get with positive probability.
-      </p>
-      <ul>
-        <li>L. Brice, T. Henzinger, K. S. Thejaswini, "Finding equilibria: simpler for pessimists, simplest for optimists", MFCS 2025 <a href="https://arxiv.org/pdf/2502.05316" target="_blank">(ArXiv)</a></li>
-      </ul>
+      <div class="research-topics">
+        <div class="research-item">
+          <a href="team-versus-one-games.html">
+            <img src="team-versus-one-games.jpg" alt="Team-versus-one games">
+            <h3>Team-versus-one games</h3>
+          </a>
+        </div>
 
-      <h3>Others</h3>
-      <p><h4>Multi-environment POMDPs  </h4>
-        <em>Multi-environment partially observable Markov decision processes</em> (POMDPs) are systems in which one agent interacts with a stochastic environment.
-        She has only partial information about the current state of the system, but tries to maximise the sum of the rewards she gets.
-        Contrary to classical POMDPs, she does not know the initial state of the system, and doesn't even have a probability distribution: she must assume the worst case.
-        We show that computing the optimal payoff the agent can obtain, within a finite horizon, is PSPACE-complete, and provide an efficient practical algorithm.
-      </p>
-      <ul>
-        <li>L. Brice, F. Cano, K. Chatterjee, T. Henzinger, S. Muroya, "Multi-Environment POMDPs with Finite-Horizon Objectives", unpublished <a href="https://arxiv.org/abs/2605.07537" target="_blank">(ArXiv)</a></li>
-      </ul>
-      
-      <p><h4>Robbins' problem  </h4>
-        Robbins' problem is a famous open problem, one of the variants of the <em>secretary problem</em>.
-        We used a Markov decision process approach to compute numerically better values than those formerly known (in <em>Principles of Verification: Cycling the Probabilistic Landscape</em>).
-      </p>
-      <ul>
-        <li>L. Brice, F. T. Bruss, A. Majumdar, J.-F. Raskin, "Algorithms for Robbins’ Problem Using Markov Decision Processes", in <em> Principles of Verification: Cycling the Probabilistic Landscape. Essays Dedicated to Joost-Pieter Katoen on the Occasion of His 60th Birthday</em> <a href="https://link.springer.com/chapter/10.1007/978-3-031-75775-4_2" target="_blank">(Springer)</a></li>
-      </ul>
-      
+        <div class="research-item">
+          <a href="equilibria.html">
+            <img src="equilibria.jpg" alt="Equilibria">
+            <h3>Equilibria</h3>
+          </a>
+        </div>
 
-      <p><h3>Some other open problems I am interested in:  </h3>
-        <ul>
-          <li>What is the complexity of the constrained existence problem of SPEs in Büchi games?
-            (We have shown that it was NP-complete in the case of parity games, and even of co-Büchi games, but this case remains open.)</li>
-          <li>Conjecture: for every positive ε, in every mean-payoff game, there exists a (possibly randomised) ε-SPE. (This result is known in the case of terminal reward games, and I believe it can be extended to mean-payoff games.)</li>
-          <li>Conjecture: in every reachability (or parity) game, there exists a positional Nash equilibrium. </li>
-        </ul>
-      </p>
+        <div class="research-item">
+          <a href="other-research.html">
+            <img src="other-research.jpg" alt="Other Research">
+            <h3>Others</h3>
+          </a>
+        </div>
+
+        <div class="research-item">
+          <a href="open-problems.html">
+            <img src="open-problems.jpg" alt="Open Problems">
+            <h3>Open Problems</h3>
+          </a>
+        </div>
+      </div>
     </section>
     
     <section id="teaching">
