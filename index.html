@@ -7,6 +7,76 @@
   <title>Léonard Brice — researcher in computer science</title>
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="favicon.ico">
+  <!-- Leaflet for map -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/topojson@3"></script>
+  <style>
+    #map {
+      width: 100%;
+      height: 600px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      margin: 20px 0;
+    }
+
+    .coauthor-tooltip {
+      background-color: #fff;
+      padding: 12px;
+      border-radius: 6px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      max-width: 250px;
+      z-index: 1000;
+    }
+
+    .coauthor-tooltip h4 {
+      margin: 0 0 8px 0;
+      font-size: 14px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .coauthor-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      font-size: 13px;
+    }
+
+    .coauthor-list li {
+      padding: 4px 0;
+      color: #555;
+      border-bottom: 1px solid #eee;
+    }
+
+    .coauthor-list li:last-child {
+      border-bottom: none;
+    }
+
+    .map-legend {
+      background-color: #fff;
+      padding: 12px;
+      border-radius: 6px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      font-size: 13px;
+      line-height: 1.6;
+      margin: 15px 0;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .legend-color-box {
+      width: 20px;
+      height: 20px;
+      margin-right: 8px;
+      border-radius: 3px;
+      border: 1px solid #ccc;
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -55,18 +125,18 @@
       <p>
         My research focuses on games.
         Games are a convenient abstract model for the interaction of several agents with different objectives.
-        In computer science, they are typically used to model the interaction between a computer-controlled system and its environment: if one wishes to program the system so that it enforces some property, one can model the system as one player and the environment as an adversary.
+        In computer science, they are typically used to model the interaction between a computer-controlled system and its environment: if one wishes to program the system so that it enforces some property, one usually needs to synthesise a strategy that guarantees the property against any possible behavior of the environment.
         I usually consider more sophisticated settings, with more than two players, in order to model <em>multi-agent systems</em>.
         All my publications can be found on my <a href="https://dblp.org/pid/284/1078.html">DBLP page</a>.
       </p>
 
-      <p><b>My PhD thesis:</b> L. Brice, <em>Equilibria in Multiplayer Graph Games: An Algorithmic Study</em> <a href="https://difusion.ulb.ac.be/vufind/Record/ULB-DIPOT:oai:dipot.ulb.ac.be:2013/39181">(ULB)</a>
+      <p><b>My PhD thesis:</b> L. Brice, <em>Equilibria in Multiplayer Graph Games: An Algorithmic Study</em> <a href="https://difusion.ulb.ac.be/vufind/Record/ULB-DIPOT:oai:dipot.ulb.ac.be:2013/39181">here</a>.</p>
 
       <div class="research-topics">
         <div class="research-item">
           <a href="team-versus-one-games.html">
             <img src="team-versus-one-games.png" alt="Team-versus-one games">
-            <h3>Team-vs-one games</h3>
+            <h3>Team-versus-one games</h3>
           </a>
         </div>
 
@@ -90,7 +160,7 @@
       <ul>
         <li>What is the complexity of the constrained existence problem of SPEs in Büchi games?
           (We have shown that it was NP-complete in the case of parity games, and even of co-Büchi games, but this case remains open.)</li>
-        <li>Conjecture: for every positive ε, in every mean-payoff game, there exists a (possibly randomised) ε-SPE. (This result is known in the case of terminal reward games, and I believe it can be generalised.)</li>
+        <li>Conjecture: for every positive ε, in every mean-payoff game, there exists a (possibly randomised) ε-SPE. (This result is known in the case of terminal reward games, and I believe it can be extended to Büchi games.)</li>
         <li>Are there always Nash equilibria in a dicey game? What is the complexity of their constrained existence problem?
       </ul>
     </section>
@@ -114,10 +184,122 @@
         <li>Google Scholar: <a href="https://scholar.google.com/citations?user=lnrd.brice" target="_blank">Profile</a></li>
       </ul>
     </section>
+
+    <section id="coauthors">
+      <div id="map"></div>
+      <div class="map-legend">
+        <div class="legend-item">
+          <div class="legend-color-box" style="background-color: #4CAF50;"></div>
+          <span>Countries with coauthors</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color-box" style="background-color: #e0e0e0;"></div>
+          <span>Other countries</span>
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer>
     <p>&copy; 2025 Dr. Léonard Brice. All rights reserved.</p>
   </footer>
+
+  <script>
+    // Initialize map
+    const map = L.map('map').setView([20, 0], 2);
+
+    // Add tile layer
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors',
+      maxZoom: 19
+    }).addTo(map);
+
+    // Coauthors data structure
+    // Format: { "CountryCode": ["Coauthor Name", "Another Coauthor", ...], ... }
+    const coauthorsByCountry = {
+      "BE": ["Jean-François Raskin", "Marie van den Bogaard"],
+      "FR": ["Example Coauthor 1"],
+      "AT": ["Thomas A. Henzinger", "Example Coauthor 2"],
+      "DE": ["Example Coauthor 3"],
+      "US": ["Example Coauthor 4", "Example Coauthor 5"],
+      // Add more countries as needed
+    };
+
+    // Country code to country name mapping
+    const countryNames = {
+      "BE": "Belgium",
+      "FR": "France",
+      "AT": "Austria",
+      "DE": "Germany",
+      "US": "United States",
+      // Add more as needed
+    };
+
+    // Color scheme
+    const colors = {
+      active: "#4CAF50",
+      inactive: "#e0e0e0",
+      hover: "#66BB6A"
+    };
+
+    // Fetch world GeoJSON
+    fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json')
+      .then(response => response.json())
+      .then(data => {
+        // Convert to feature collection
+        const features = topojson.feature(data, data.objects.countries).features;
+        
+        // Add country polygons to map
+        L.geoJSON(features, {
+          style: function(feature) {
+            const countryCode = getCountryCode(feature);
+            const hasCoauthors = coauthorsByCountry[countryCode];
+            
+            return {
+              fillColor: hasCoauthors ? colors.active : colors.inactive,
+              weight: 1,
+              opacity: 1,
+              color: '#999',
+              fillOpacity: 0.7
+            };
+          },
+          onEachFeature: function(feature, layer) {
+            const countryCode = getCountryCode(feature);
+            const countryName = countryNames[countryCode] || feature.properties.name;
+            const coauthors = coauthorsByCountry[countryCode];
+
+            let popupContent = `<strong>${countryName}</strong>`;
+            
+            if (coauthors) {
+              popupContent += '<ul class="coauthor-list">';
+              coauthors.forEach(coauthor => {
+                popupContent += `<li>${coauthor}</li>`;
+              });
+              popupContent += '</ul>';
+            } else {
+              popupContent += '<p style="font-size: 12px; color: #999; margin: 8px 0 0 0;">No coauthors</p>';
+            }
+
+            layer.bindPopup(popupContent);
+
+            if (coauthors) {
+              layer.on('mouseover', function() {
+                this.setStyle({ fillColor: colors.hover, fillOpacity: 0.9 });
+              });
+              layer.on('mouseout', function() {
+                this.setStyle({ fillColor: colors.active, fillOpacity: 0.7 });
+              });
+            }
+          }
+        }).addTo(map);
+      })
+      .catch(error => console.error('Error loading map data:', error));
+
+    // Helper function to get country code from feature
+    function getCountryCode(feature) {
+      // This depends on the GeoJSON structure - adjust as needed
+      return feature.id ? String(feature.id).padStart(3, '0') : null;
+    }
+  </script>
 </body>
 </html>
