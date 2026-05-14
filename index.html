@@ -261,7 +261,6 @@
         
         // Add country polygons to map
         L.geoJSON(features, {
-          antimeridian: true,
           style: function(feature) {
             const countryCode = getCountryCode(feature);
             const hasCoauthors = coauthorsByCountry[countryCode];
@@ -274,11 +273,15 @@
               fillOpacity: 0.7
             };
           },
+          coordsToLatLng: function(coords) {
+            // Normalize longitude to -180 to 180
+            return L.latLng(coords[1], ((coords[0] + 540) % 360) - 180);
+          },
           onEachFeature: function(feature, layer) {
             const countryCode = getCountryCode(feature);
             const countryName = countryNames[countryCode] || feature.properties.name;
             const coauthors = coauthorsByCountry[countryCode];
-
+        
             let popupContent = `<strong>${countryName}</strong>`;
             
             if (coauthors) {
@@ -290,9 +293,9 @@
             } else {
               popupContent += '<p style="font-size: 12px; color: #999; margin: 8px 0 0 0;">No coauthors</p>';
             }
-
+        
             layer.bindPopup(popupContent);
-
+        
             if (coauthors) {
               layer.on('mouseover', function() {
                 this.setStyle({ fillColor: colors.hover, fillOpacity: 0.9 });
@@ -303,8 +306,6 @@
             }
           }
         }).addTo(map);
-      })
-      .catch(error => console.error('Error loading map data:', error));
 
     // Helper function to get country code from feature
     function getCountryCode(feature) {
