@@ -206,112 +206,125 @@
   </footer>
 
   <script>
-    // Initialize map
-    const map = L.map('map').setView([20, 0], 2);
+  // Initialize map
+  const map = L.map('map').setView([20, 0], 2);
 
-    // Add tile layer
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© OpenStreetMap contributors',
-      maxZoom: 19
-    }).addTo(map);
+  // Add tile layer
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors',
+    maxZoom: 19
+  }).addTo(map);
 
-    // Coauthors data structure
-    // Format: { "CountryCode": ["Coauthor Name", "Another Coauthor", ...], ... }
-    const coauthorsByCountry = {
-      "056": [{name: "Jean-François Raskin", url: "https://verif.ulb.ac.be/jfr/"}],
-      250: [{name: "Marie van den Bogaard", url: "https://pagespro.univ-gustave-eiffel.fr/marie-van-den-bogaard"},
+  // Coauthors data structure
+  // Format: { "CountryCode": ["Coauthor Name", "Another Coauthor", ...], ... }
+  const coauthorsByCountry = {
+    "056": [{name: "Jean-François Raskin", url: "https://verif.ulb.ac.be/jfr/"}],
+    "250": [{name: "Marie van den Bogaard", url: "https://pagespro.univ-gustave-eiffel.fr/marie-van-den-bogaard"},
             {name: "Mathieu Sassolas"},
             {name: "Guillaume Scerri", url: "https://lmf.cnrs.fr/GuillaumeScerri/HomePage"}],
-      "040": [{name: "Thomas A. Henzinger", url: "https://pub.ista.ac.at/~tah/"}],
-      276: [{name: "Thomas Bruss", url: "https://cvchercheurs.ulb.ac.be/Siteprev/Compos/DESC3541.php"}],
-      356: [{name: "Anirban Majumdar", url: "https://anirban11.github.io/"},
+    "040": [{name: "Thomas A. Henzinger", url: "https://pub.ista.ac.at/~tah/"}],
+    "276": [{name: "Thomas Bruss", url: "https://cvchercheurs.ulb.ac.be/Siteprev/Compos/DESC3541.php"}],
+    "356": [{name: "Anirban Majumdar", url: "https://anirban11.github.io/"},
             {name: "K. S. Thejaswini", url: "https://thejaswiniraghavan.github.io/"}],
-      724: [{name: "Filip Cano Cordoba (Catalunya)", url: "https://filipcano.org/"}],
-      604: [{name: "Stefanie Muroya Lei", url: "https://research-explorer.ista.ac.at/person/a376de31-8972-11ed-ae7b-d0251c13c8ff"}],
-      364: [{name: "Ali Asadi", url: "https://ali-asadi.com/"},
+    "724": [{name: "Filip Cano Cordoba (Catalunya)", url: "https://filipcano.org/"}],
+    "604": [{name: "Stefanie Muroya Lei", url: "https://research-explorer.ista.ac.at/person/a376de31-8972-11ed-ae7b-d0251c13c8ff"}],
+    "364": [{name: "Ali Asadi", url: "https://ali-asadi.com/"},
             {name: "Alipasha Montaseri"},
             {name: "Ali Shafiee"}]
-    };
+  };
 
-    // Country code to country name mapping
-    const countryNames = {
-      "056": "Belgium",
-      250: "France",
-      "040": "Austria",
-      276: "Germany",
-      724: "Spanish state",
-      356: "India",
-      604: "Peru",
-      364: "Iran"
-    };
+  // Country code to country name mapping
+  const countryNames = {
+    "056": "Belgium",
+    "250": "France",
+    "040": "Austria",
+    "276": "Germany",
+    "724": "Spanish state",
+    "356": "India",
+    "604": "Peru",
+    "364": "Iran"
+  };
 
-    // Color scheme
-    const colors = {
-      active: "#4CAF50",
-      inactive: "#e0e0e0",
-      hover: "#66BB6A"
-    };
+  // Color scheme
+  const colors = {
+    active: "#4CAF50",
+    inactive: "#e0e0e0",
+    hover: "#66BB6A"
+  };
 
-    // Fetch world GeoJSON
-    fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-10m.json')
-      .then(response => response.json())
-      .then(data => {
-        // Convert to feature collection
-        const features = topojson.feature(data, data.objects.countries).features;
-        
-        // Add country polygons to map
-        L.geoJSON(features, {
-          style: function(feature) {
-            const countryCode = getCountryCode(feature);
-            const hasCoauthors = coauthorsByCountry[countryCode];
-            
-            return {
-              fillColor: hasCoauthors ? colors.active : colors.inactive,
-              weight: 1,
-              opacity: 1,
-              color: '#999',
-              fillOpacity: 0.7
-            };
-          },
-          coordsToLatLng: function(coords) {
-            // Normalize longitude to -180 to 180
-            return L.latLng(coords[1], ((coords[0] + 540) % 360) - 180);
-          },
-          onEachFeature: function(feature, layer) {
-            const countryCode = getCountryCode(feature);
-            const countryName = countryNames[countryCode] || feature.properties.name;
-            const coauthors = coauthorsByCountry[countryCode];
-        
-            let popupContent = `<strong>${countryName}</strong>`;
-            
-            if (coauthors) {
-              popupContent += '<ul class="coauthor-list">';
-              coauthors.forEach(coauthor => {
-                popupContent += `<li><a href="${coauthor.url}" target="_blank">${coauthor.name}</a></li>`;
-              });
-              popupContent += '</ul>';
-            } else {
-              popupContent += '<p style="font-size: 12px; color: #999; margin: 8px 0 0 0;">No coauthors</p>';
-            }
-        
-            layer.bindPopup(popupContent);
-        
-            if (coauthors) {
-              layer.on('mouseover', function() {
-                this.setStyle({ fillColor: colors.hover, fillOpacity: 0.9 });
-              });
-              layer.on('mouseout', function() {
-                this.setStyle({ fillColor: colors.active, fillOpacity: 0.7 });
-              });
-            }
+  // Fetch world GeoJSON
+  fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json')
+    .then(response => response.json())
+    .then(data => {
+      // Convert to feature collection
+      const features = topojson.feature(data, data.objects.countries).features;
+      
+      // Normalize coordinates to handle antimeridian
+      features.forEach(feature => {
+        if (feature.geometry.type === 'Polygon') {
+          feature.geometry.coordinates = feature.geometry.coordinates.map(ring =>
+            ring.map(coord => [((coord[0] + 540) % 360) - 180, coord[1]])
+          );
+        } else if (feature.geometry.type === 'MultiPolygon') {
+          feature.geometry.coordinates = feature.geometry.coordinates.map(polygon =>
+            polygon.map(ring =>
+              ring.map(coord => [((coord[0] + 540) % 360) - 180, coord[1]])
+            )
+          );
+        }
+      });
+      
+      // Add country polygons to map
+      L.geoJSON(features, {
+        style: function(feature) {
+          const countryCode = getCountryCode(feature);
+          const hasCoauthors = coauthorsByCountry[countryCode];
+          
+          return {
+            fillColor: hasCoauthors ? colors.active : colors.inactive,
+            weight: 1,
+            opacity: 1,
+            color: '#999',
+            fillOpacity: 0.7
+          };
+        },
+        onEachFeature: function(feature, layer) {
+          const countryCode = getCountryCode(feature);
+          const countryName = countryNames[countryCode] || feature.properties.name;
+          const coauthors = coauthorsByCountry[countryCode];
+
+          let popupContent = `<strong>${countryName}</strong>`;
+          
+          if (coauthors) {
+            popupContent += '<ul class="coauthor-list">';
+            coauthors.forEach(coauthor => {
+              popupContent += `<li><a href="${coauthor.url}" target="_blank">${coauthor.name}</a></li>`;
+            });
+            popupContent += '</ul>';
+          } else {
+            popupContent += '<p style="font-size: 12px; color: #999; margin: 8px 0 0 0;">No coauthors</p>';
           }
-        }).addTo(map);
 
-    // Helper function to get country code from feature
-    function getCountryCode(feature) {
-      // This depends on the GeoJSON structure - adjust as needed
-      return feature.id ? String(feature.id).padStart(3, '0') : null;
-    }
-  </script>
+          layer.bindPopup(popupContent);
+
+          if (coauthors) {
+            layer.on('mouseover', function() {
+              this.setStyle({ fillColor: colors.hover, fillOpacity: 0.9 });
+            });
+            layer.on('mouseout', function() {
+              this.setStyle({ fillColor: colors.active, fillOpacity: 0.7 });
+            });
+          }
+        }
+      }).addTo(map);
+    })
+    .catch(error => console.error('Error loading map data:', error));
+
+  // Helper function to get country code from feature
+  function getCountryCode(feature) {
+    // This depends on the GeoJSON structure - adjust as needed
+    return feature.id ? String(feature.id).padStart(3, '0') : null;
+  }
+</script>
 </body>
 </html>
