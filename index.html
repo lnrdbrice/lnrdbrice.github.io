@@ -252,6 +252,7 @@
   };
 
   // Function to split MultiPolygons that cross antimeridian
+    // Function to split MultiPolygons that cross antimeridian
   function splitAntimeridianPolygons(features) {
     return features.map(feature => {
       if (feature.geometry.type === 'MultiPolygon') {
@@ -259,6 +260,7 @@
         feature.geometry.coordinates.forEach(polygon => {
           polygons.push({
             type: 'Feature',
+            id: feature.id,
             properties: feature.properties,
             geometry: {
               type: 'Polygon',
