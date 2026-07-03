@@ -76,10 +76,55 @@
       border-radius: 3px;
       border: 1px solid #ccc;
     }
+
+    .header-logos {
+      position: absolute;
+      top: 20px;
+      right: 40px;
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+
+    .header-logos a {
+      display: inline-block;
+      text-decoration: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .header-logos a:hover {
+      opacity: 0.8;
+    }
+
+    .header-logos img {
+      height: 40px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    @media (max-width: 600px) {
+      .header-logos {
+        position: static;
+        margin-top: 15px;
+        justify-content: center;
+      }
+
+      .header-logos img {
+        height: 32px;
+      }
+    }
   </style>
 </head>
 <body>
   <header>
+    <div class="header-logos">
+      <a href="https://nofreeviewnoreview.org/" target="_blank" title="No Free View No Review">
+        <img src="https://nofreeviewnoreview.org/logo.png" alt="No Free View No Review">
+      </a>
+      <a href="https://tcs4f.org/" target="_blank" title="TCS4F">
+        <img src="https://tcs4f.org/logo.png" alt="TCS4F">
+      </a>
+    </div>
     <div class="profile-photo">
       <img src="photo.jpeg" alt="Léonard Brice">
     </div>
