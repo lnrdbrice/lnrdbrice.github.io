@@ -46,11 +46,12 @@
         The most classical notion of equilibrium is the <em>Nash equilibrium</em>, where no player can improve their outcome by changing their own strategy, if the other players keep their strategies fixed.
         Nash equilibria were extensively studied in the literature.
         However, I contributed to this line of work with results about the complexity of Nash equilibria in energy and in discounted-sum games (MFCS 2023).
-        More recently, we studied the complexity of stationary Nash equilibria in stochastic games, by proposing a new approximation algorithm (FSTTCS 2025).
+        I also studied the complexity of Nash equilibria in stochastic games, by proposing a new approximate algorithm for stationary equilibria (FSTTCS 2025), and later on the first approximate algorithm for general Nash equilibria in stopping games.
       </p>
       <ul>
         <li>L. Brice, J.-F. Raskin, M. van den Bogaard, "Rational Verification and Checking for Nash and Subgame-perfect Equilibria in Graph Games", MFCS 2023 <a href="https://arxiv.org/pdf/2301.12913" target="_blank">(ArXiv)</a></li>
         <li>A. Asadi, L. Brice, K. Chatterjee, K. S. Thejaswini, "ε-Stationary Nash Equilibria in Multi-player Stochastic Graph Games", FSTTCS 2025 <a href="https://arxiv.org/pdf/2508.15356" target="_blank">(ArXiv)</a></li>
+        <li>L. Brice, T. A. Henzinger, K. S. Thejaswini, "Algorithms for Equilibria in Concurrent Stopping Games" (unpublished) <a href="https://arxiv.org/abs/2607.24219" target="_blank">(ArXiv)</a></li>
       </ul>
 
       <h3>Subgame-perfect equilibria</h3>
@@ -85,9 +86,11 @@
         This concept is relevant in stochastic games, or when players are allowed to use randomised strategies.
         In such a situation, one usually assumes that each player maximises their expected payof; but that does not capture the risk each player is willing to take.
         <em>Extreme</em> risk-sensitive equilibria are defined from a partition of players, assuming that some are <em>pessimists</em>, and some <em>optimists</em>; they are strategy profiles from which no pessimist can improve their worst-case payoff, and no optimist can improve their best-case payoff.
+        We designed algorithms for the constrained existence problem of those equilibria in turn-based games (MFCS 2025), and later on in concurrent stopping games.
       </p>
       <ul>
         <li>L. Brice, T. Henzinger, K. S. Thejaswini, "Finding equilibria: simpler for pessimists, simplest for optimists", MFCS 2025 <a href="https://arxiv.org/pdf/2502.05316" target="_blank">(ArXiv)</a></li>
+        <li>L. Brice, T. A. Henzinger, K. S. Thejaswini, "Algorithms for Equilibria in Concurrent Stopping Games" (unpublished) <a href="https://arxiv.org/abs/2607.24219" target="_blank">(ArXiv)</a></li>
       </ul>
     </section>
   </main>
