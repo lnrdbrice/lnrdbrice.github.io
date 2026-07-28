@@ -7,76 +7,7 @@
   <title>Léonard Brice — researcher in computer science</title>
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="favicon.ico">
-  <!-- Leaflet for map -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/topojson@3"></script>
   <style>
-    #map {
-      width: 100%;
-      height: 600px;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      margin: 20px 0;
-    }
-
-    .coauthor-tooltip {
-      background-color: #fff;
-      padding: 12px;
-      border-radius: 6px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-      max-width: 250px;
-      z-index: 1000;
-    }
-
-    .coauthor-tooltip h4 {
-      margin: 0 0 8px 0;
-      font-size: 14px;
-      font-weight: 600;
-      color: #333;
-    }
-
-    .coauthor-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      font-size: 13px;
-    }
-
-    .coauthor-list li {
-      padding: 4px 0;
-      color: #555;
-      border-bottom: 1px solid #eee;
-    }
-
-    .coauthor-list li:last-child {
-      border-bottom: none;
-    }
-
-    .map-legend {
-      background-color: #fff;
-      padding: 12px;
-      border-radius: 6px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      font-size: 13px;
-      line-height: 1.6;
-      margin: 15px 0;
-    }
-
-    .legend-item {
-      display: flex;
-      align-items: center;
-      margin-bottom: 8px;
-    }
-
-    .legend-color-box {
-      width: 20px;
-      height: 20px;
-      margin-right: 8px;
-      border-radius: 3px;
-      border: 1px solid #ccc;
-    }
-
     .header-logos {
       position: absolute;
       top: 20px;
@@ -102,6 +33,15 @@
       object-fit: contain;
     }
 
+    /* The co-author map lives in coauthors-map.html */
+    .map-frame {
+      display: block;
+      width: 100%;
+      height: 720px;
+      border: 0;
+      margin: 20px 0;
+    }
+
     @media (max-width: 600px) {
       .header-logos {
         position: static;
@@ -111,6 +51,10 @@
 
       .header-logos img {
         height: 32px;
+      }
+
+      .map-frame {
+        height: 540px;
       }
     }
   </style>
@@ -204,24 +148,15 @@
         <li>What is the complexity of the constrained existence problem of SPEs in Büchi games?
           (We have shown that it was NP-complete in the case of parity games, and even of co-Büchi games, but this case remains open.)</li>
         <li>Conjecture: for every positive ε, in every mean-payoff game, there exists a (possibly randomised) ε-SPE. (This result is known in the case of terminal reward games, and I believe it can be extended to Büchi games.)</li>
-        <li>Are there always Nash equilibria in a dicey game? What is the complexity of their constrained existence problem?
+        <li>Are there always Nash equilibria in a dicey game? What is the complexity of their constrained existence problem?</li>
       </ul>
       <p>These are problems I'm currently not working on, but I'll be happy to collaborate with anyone wishing to adress them.</p>
     </section>
 
     <section id="coauthors">
       <h2>My co-authors (by country of origin)</h2>
-      <div id="map"></div>
-      <div class="map-legend">
-        <div class="legend-item">
-          <div class="legend-color-box" style="background-color: #4CAF50;"></div>
-          <span>Countries with coauthors</span>
-        </div>
-        <div class="legend-item">
-          <div class="legend-color-box" style="background-color: #e0e0e0;"></div>
-          <span>Other countries</span>
-        </div>
-      </div>
+      <iframe class="map-frame" src="coauthors-map.html" loading="lazy"
+              title="Map of my co-authors, by country of origin"></iframe>
     </section>
     
     <section id="teaching">
@@ -250,139 +185,5 @@
   <footer>
     <p>&copy; 2025 Dr. Léonard Brice. All rights reserved.</p>
   </footer>
-
-  <script>
-    // Initialize map
-  const map = L.map('map', {
-    renderer: L.canvas()
-  }).setView([20, 0], 2);
-
-  // Add tile layer
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '© OpenStreetMap contributors',
-    maxZoom: 19
-  }).addTo(map);
-
-  // Coauthors data structure
-  const coauthorsByCountry = {
-    "056": [{name: "Jean-François Raskin", url: "https://verif.ulb.ac.be/jfr/"}],
-    "250": [{name: "Marie van den Bogaard", url: "https://pagespro.univ-gustave-eiffel.fr/marie-van-den-bogaard"},
-            {name: "Mathieu Sassolas"},
-            {name: "Guillaume Scerri", url: "https://lmf.cnrs.fr/GuillaumeScerri/HomePage"}],
-    "040": [{name: "Thomas A. Henzinger", url: "https://pub.ista.ac.at/~tah/"}],
-    "276": [{name: "Thomas Bruss", url: "https://cvchercheurs.ulb.ac.be/Siteprev/Compos/DESC3541.php"}],
-    "356": [{name: "Anirban Majumdar", url: "https://anirban11.github.io/"},
-            {name: "K. S. Thejaswini", url: "https://thejaswiniraghavan.github.io/"},
-            {name: "Krishnendu Chatterjee", url: "https://pub.ista.ac.at/~kchatterjee/"}],
-    "724": [{name: "Filip Cano Cordoba (Catalunya)", url: "https://filipcano.org/"}],
-    "604": [{name: "Stefanie Muroya Lei", url: "https://research-explorer.ista.ac.at/person/a376de31-8972-11ed-ae7b-d0251c13c8ff"}],
-    "364": [{name: "Ali Asadi", url: "https://ali-asadi.com/"},
-            {name: "Alipasha Montaseri"},
-            {name: "Ali Shafiee"}]
-  };
-
-  // Country code to country name mapping
-  const countryNames = {
-    "056": "Belgium",
-    "250": "France",
-    "040": "Austria",
-    "276": "Germany",
-    "724": "Spanish state",
-    "356": "India",
-    "604": "Peru",
-    "364": "Iran"
-  };
-
-  // Color scheme
-  const colors = {
-    active: "#4CAF50",
-    inactive: "#e0e0e0",
-    hover: "#66BB6A"
-  };
-
-  // Function to split MultiPolygons that cross antimeridian
-    // Function to split MultiPolygons that cross antimeridian
-  function splitAntimeridianPolygons(features) {
-    return features.map(feature => {
-      if (feature.geometry.type === 'MultiPolygon') {
-        const polygons = [];
-        feature.geometry.coordinates.forEach(polygon => {
-          polygons.push({
-            type: 'Feature',
-            id: feature.id,
-            properties: feature.properties,
-            geometry: {
-              type: 'Polygon',
-              coordinates: polygon
-            }
-          });
-        });
-        return polygons;
-      }
-      return feature;
-    }).flat();
-  }
-
-  // Fetch world GeoJSON
-  fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json')
-    .then(response => response.json())
-    .then(data => {
-      // Convert to feature collection
-      let features = topojson.feature(data, data.objects.countries).features;
-      
-      // Split MultiPolygons to avoid antimeridian stripes
-      features = splitAntimeridianPolygons(features);
-      
-      // Add country polygons to map
-      L.geoJSON(features, {
-        style: function(feature) {
-          const countryCode = getCountryCode(feature);
-          const hasCoauthors = coauthorsByCountry[countryCode];
-          
-          return {
-            fillColor: hasCoauthors ? colors.active : colors.inactive,
-            weight: 1,
-            opacity: 1,
-            color: '#999',
-            fillOpacity: 0.7
-          };
-        },
-        onEachFeature: function(feature, layer) {
-          const countryCode = getCountryCode(feature);
-          const countryName = countryNames[countryCode] || feature.properties.name;
-          const coauthors = coauthorsByCountry[countryCode];
-
-          let popupContent = `<strong>${countryName}</strong>`;
-          
-          if (coauthors) {
-            popupContent += '<ul class="coauthor-list">';
-            coauthors.forEach(coauthor => {
-              popupContent += `<li><a href="${coauthor.url}" target="_blank">${coauthor.name}</a></li>`;
-            });
-            popupContent += '</ul>';
-          } else {
-            popupContent += '<p style="font-size: 12px; color: #999; margin: 8px 0 0 0;">No coauthors</p>';
-          }
-
-          layer.bindPopup(popupContent);
-
-          if (coauthors) {
-            layer.on('mouseover', function() {
-              this.setStyle({ fillColor: colors.hover, fillOpacity: 0.9 });
-            });
-            layer.on('mouseout', function() {
-              this.setStyle({ fillColor: colors.active, fillOpacity: 0.7 });
-            });
-          }
-        }
-      }).addTo(map);
-    })
-    .catch(error => console.error('Error loading map data:', error));
-
-  // Helper function to get country code from feature
-  function getCountryCode(feature) {
-    return feature.id ? String(feature.id).padStart(3, '0') : null;
-  }
-</script>
 </body>
 </html>
