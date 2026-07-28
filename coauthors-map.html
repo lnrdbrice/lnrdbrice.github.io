@@ -26,37 +26,27 @@
 
     body {
       margin: 0;
-      padding: 4px;                 /* keeps the map's box-shadow from being clipped */
-      box-sizing: border-box;
       background: transparent;      /* blends with the embedding page */
       color: #333;
       font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
     }
 
+    /* The map fills the frame exactly, so the aspect ratio of the <iframe>
+       in index.html is the aspect ratio of the map. */
     #map {
-      flex: 1 1 auto;
-      min-height: 0;                /* lets the flex item actually shrink */
       width: 100%;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      height: 100%;
       background: var(--sea);       /* there is no basemap: this *is* the sea */
     }
 
-    /* ---- legend ---- */
+    /* ---- legend (a Leaflet control, bottom left) ---- */
     .map-legend {
-      flex: 0 0 auto;
-      background-color: #fff;
-      padding: 12px;
+      background-color: rgba(255, 255, 255, 0.92);
+      padding: 8px 10px;
       border-radius: 6px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      font-size: 13px;
-      line-height: 1.6;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 4px 24px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+      font-size: 12px;
+      line-height: 1.4;
     }
 
     .legend-item {
@@ -64,12 +54,15 @@
       align-items: center;
     }
 
+    .legend-item + .legend-item { margin-top: 5px; }
+
     .legend-color-box {
-      width: 20px;
-      height: 20px;
-      margin-right: 8px;
+      flex: none;
+      width: 14px;
+      height: 14px;
+      margin-right: 7px;
       border-radius: 3px;
-      border: 1px solid #ccc;
+      border: 1px solid rgba(0, 0, 0, 0.15);
     }
 
     /* ---- popups ---- */
@@ -131,22 +124,11 @@
   </style>
 </head>
 <body>
-  <div id="map"></div>
-
-  <noscript>
-    <p class="noscript-note">This map needs JavaScript. My co-authors come from Austria, Belgium, France,
-    Germany, India, Iran, Peru and the Spanish state.</p>
-  </noscript>
-
-  <div class="map-legend">
-    <div class="legend-item">
-      <div class="legend-color-box" style="background-color: var(--coauthor);"></div>
-      <span>Countries with coauthors</span>
-    </div>
-    <div class="legend-item">
-      <div class="legend-color-box" style="background-color: var(--land);"></div>
-      <span>Other countries</span>
-    </div>
+  <div id="map">
+    <noscript>
+      <p class="noscript-note">This map needs JavaScript. My co-authors come from Austria, Belgium,
+      France, Germany, India, Iran, Peru and the Spanish state.</p>
+    </noscript>
   </div>
 
 <script>
@@ -236,44 +218,31 @@
     return out;
   }
 
-  // Sutherland-Hodgman against one half-plane, on axis 0 (longitude) or 1
-  // (latitude): keepBelow ? {u <= c} : {u >= c}, where u is that coordinate.
-  function clipHalfPlane(ring, axis, keepBelow, c) {
-    const other = 1 - axis;
-    const inside = p => keepBelow ? p[axis] <= c : p[axis] >= c;
+  // Sutherland-Hodgman against one half-plane: keepLeft ? {x <= c} : {x >= c}.
+  function clipHalfPlane(ring, keepLeft, c) {
+    const inside = p => keepLeft ? p[0] <= c : p[0] >= c;
     const out = [];
     for (let i = 0; i < ring.length; i++) {
       const cur = ring[i], nxt = ring[(i + 1) % ring.length];
       const curIn = inside(cur), nxtIn = inside(nxt);
       if (curIn) out.push(cur);
       if (curIn !== nxtIn) {
-        const t = (c - cur[axis]) / (nxt[axis] - cur[axis]);
-        const p = [0, 0];
-        p[axis] = c;
-        p[other] = cur[other] + t * (nxt[other] - cur[other]);
-        out.push(p);
+        const t = (c - cur[0]) / (nxt[0] - cur[0]);
+        out.push([c, cur[1] + t * (nxt[1] - cur[1])]);
       }
     }
     return out;
   }
 
-  // Intersect a ring with the slab lo <= u <= hi. The slab is convex, so
-  // Sutherland-Hodgman is exact for the filled region; where the boundary
-  // crosses the slab several times it emits edges lying on the cut lines,
-  // which is why the cuts are placed outside the visible frame.
-  function clipToInterval(ring, axis, lo, hi) {
+  function clipToStrip(ring, lo, hi) {
     let r = ring;
     const f = r[0], l = r[r.length - 1];
     if (f[0] === l[0] && f[1] === l[1]) r = r.slice(0, -1);   // drop closing vertex
-    r = clipHalfPlane(r, axis, false, lo);
+    r = clipHalfPlane(r, false, lo);
     if (r.length === 0) return r;
-    r = clipHalfPlane(r, axis, true, hi);
+    r = clipHalfPlane(r, true, hi);
     if (r.length === 0) return r;
     return ensureClosed(r);
-  }
-
-  function clipToStrip(ring, lo, hi) {
-    return clipToInterval(ring, 0, lo, hi);
   }
 
   // rings = [exterior, hole, hole, ...]  ->  list of such polygons
@@ -325,59 +294,25 @@
   }
 
   /* ==================================================================
-     Latitude crop
-
-     Everything north of Cape Chelyuskin (77°43'N, the northernmost coast of
-     continental Asia) and south of Cape Horn (55°59'S) is dropped, which
-     removes Antarctica, the Arctic islands and a great deal of empty
-     Mercator space. The cuts are made slightly outside the framed band, so
-     the straight cut edges are never visible.
-     ================================================================== */
-
-  const VIEW = { north: 78.5, south: -57, lon: 4 };   // what the frame shows
-  const CROP = { north: 80,   south: -58 };           // where the geometry is cut
-
-  function cropLatitudes(features, south, north) {
-    const out = [];
-    for (const feature of features) {
-      const g = feature.geometry;
-      if (!g) continue;
-      const polys = g.type === 'Polygon' ? [g.coordinates]
-                  : g.type === 'MultiPolygon' ? g.coordinates : null;
-      if (!polys) continue;
-
-      const kept = [];
-      for (const rings of polys) {
-        const clipped = rings
-          .map(r => clipToInterval(r, 1, south, north))
-          .filter((r, i) => i === 0 || r.length >= 4);       // drop empty holes
-        if (clipped[0].length >= 4) kept.push(clipped);
-      }
-      if (!kept.length) continue;                            // wholly outside
-
-      out.push({
-        type: 'Feature',
-        id: feature.id,
-        properties: feature.properties,
-        geometry: { type: 'MultiPolygon', coordinates: kept }
-      });
-    }
-    return out;
-  }
-
-  /* ==================================================================
      Map
      ================================================================== */
+
+  // The latitudes the frame is meant to show: just above Cape Chelyuskin
+  // (77°43'N, northernmost coast of continental Asia) and just below Cape
+  // Horn (55°59'S). Nothing is removed from the data -- zooming or panning
+  // out still shows the Arctic and Antarctica.
+  const VIEW = { north: 78.5, south: -57 };
 
   const map = L.map('map', {
     renderer: L.canvas(),
     zoomSnap: 0,                     // the fitting zoom below is fractional
     zoomDelta: 0.5,
+    minZoom: 0,
     maxZoom: 8,
     worldCopyJump: false,
     scrollWheelZoom: false,          // re-enabled once the map is clicked
-    maxBounds: [[VIEW.south, -180], [VIEW.north, 180]],
-    maxBoundsViscosity: 1
+    maxBounds: [[-85, -180], [85, 180]],
+    maxBoundsViscosity: 0.5
   });
 
   // No tile basemap at all: the country polygons below are the whole map, so
@@ -392,37 +327,44 @@
   map.attributionControl.addAttribution(
     'Boundaries: <a href="https://www.naturalearthdata.com/">Natural Earth</a>');
 
-  // Fit the latitude band to the *height* of the frame, whatever its width.
-  // Fitting the height rather than a rectangle means the band is shown in
-  // full on any screen, so the cut edges stay out of sight; on a narrow
-  // frame one pans east-west instead of seeing the poles. Setting minZoom to
-  // that zoom stops anyone from zooming out past the crop.
+  // Legend, in the corner of the map rather than under it: it costs no
+  // vertical space on the page that way.
+  const legend = L.control({ position: 'bottomleft' });
+  legend.onAdd = function () {
+    const div = L.DomUtil.create('div', 'map-legend');
+    div.innerHTML =
+      '<div class="legend-item">' +
+        '<span class="legend-color-box" style="background-color: var(--coauthor);"></span>' +
+        '<span>Countries with coauthors</span></div>' +
+      '<div class="legend-item">' +
+        '<span class="legend-color-box" style="background-color: var(--land);"></span>' +
+        '<span>Other countries</span></div>';
+    L.DomEvent.disableClickPropagation(div);
+    return div;
+  };
+  legend.addTo(map);
+
+  // Show the whole world edge to edge, and centre it on the middle of the
+  // latitude band above. The frame is short enough (see the aspect ratio of
+  // .map-frame in index.html) that the poles fall outside it; they are still
+  // there, one zoom-out or one drag away.
   let framing = false, userMoved = false;
 
-  function fitZoom() {
+  function bandCentre() {
     const n = map.project(L.latLng(VIEW.north, 0), 0);
     const s = map.project(L.latLng(VIEW.south, 0), 0);
-    const h = map.getSize().y || 480;      // frame not laid out yet
-    return Math.log2(h / (s.y - n.y));
+    return map.unproject(L.point(n.x, (n.y + s.y) / 2), 0).lat;
   }
 
   function frameWorld() {
     framing = true;
-    const n = map.project(L.latLng(VIEW.north, 0), 0);
-    const s = map.project(L.latLng(VIEW.south, 0), 0);
-    const centre = map.unproject(L.point(n.x, (n.y + s.y) / 2), 0);
-    const zoom = fitZoom();
-    map.setMinZoom(0);
-    map.setView([centre.lat, VIEW.lon], zoom, { animate: false });
-    map.setMinZoom(zoom);
+    const width = map.getSize().x || 860;     // frame not laid out yet
+    map.setView([bandCentre(), 0], Math.log2(width / 256), { animate: false });
     framing = false;
   }
 
   map.on('zoomstart dragstart', function () { if (!framing) userMoved = true; });
-  map.on('resize', function () {
-    if (userMoved) map.setMinZoom(fitZoom());
-    else frameWorld();
-  });
+  map.on('resize', function () { if (!userMoved) frameWorld(); });
   frameWorld();
 
   // Don't steal the page's scroll; wake up on a click.
@@ -464,9 +406,6 @@
 
       // Split the rings that cross the 180th meridian (Russia, Fiji, ...)
       features = fixAntimeridian(features);
-
-      // Drop the Arctic and Antarctica
-      features = cropLatitudes(features, CROP.south, CROP.north);
 
       L.geoJSON(features, {
         style: function (feature) {
