@@ -33,13 +33,24 @@
       object-fit: contain;
     }
 
-    /* The co-author map lives in coauthors-map.html */
+    /* The co-author map lives in coauthors-map.html. Its aspect ratio is what
+       keeps the Arctic and Antarctica out of the initial view: the map shows
+       the world from -180 to 180 across the full width, so the height of the
+       frame decides which latitudes fit. 1.789 gives 57S..78.5N, i.e. just
+       below Cape Horn and just above the northernmost coast of Asia. A taller
+       frame (smaller ratio) shows more of the poles, a shorter one less. */
     .map-frame {
       display: block;
       width: 100%;
-      height: 720px;
+      aspect-ratio: 1.789;
       border: 0;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
       margin: 20px 0;
+    }
+
+    @supports not (aspect-ratio: 1 / 1) {
+      .map-frame { height: 480px; }
     }
 
     @media (max-width: 600px) {
@@ -51,10 +62,6 @@
 
       .header-logos img {
         height: 32px;
-      }
-
-      .map-frame {
-        height: 540px;
       }
     }
   </style>
