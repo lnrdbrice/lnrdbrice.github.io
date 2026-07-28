@@ -13,6 +13,15 @@
   <script src="https://cdn.jsdelivr.net/npm/topojson@3"></script>
 
   <style>
+    /* The whole palette lives here; the script reads these values back. */
+    :root {
+      --sea:            #a9cfe3;
+      --land:           #e3e3e3;
+      --land-stroke:    #ffffff;
+      --coauthor:       #4CAF50;
+      --coauthor-hover: #66BB6A;
+    }
+
     html, body { height: 100%; }
 
     body {
@@ -33,7 +42,7 @@
       width: 100%;
       border-radius: 8px;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      background: #eef1f2;          /* shown beyond the edges of the world */
+      background: var(--sea);       /* there is no basemap: this *is* the sea */
     }
 
     /* ---- legend ---- */
@@ -131,11 +140,11 @@
 
   <div class="map-legend">
     <div class="legend-item">
-      <div class="legend-color-box" style="background-color: #4CAF50;"></div>
+      <div class="legend-color-box" style="background-color: var(--coauthor);"></div>
       <span>Countries with coauthors</span>
     </div>
     <div class="legend-item">
-      <div class="legend-color-box" style="background-color: #e0e0e0;"></div>
+      <div class="legend-color-box" style="background-color: var(--land);"></div>
       <span>Other countries</span>
     </div>
   </div>
@@ -176,12 +185,14 @@
     "364": "Iran"
   };
 
+  const css = getComputedStyle(document.documentElement);
+  const token = (name, fallback) => (css.getPropertyValue(name).trim() || fallback);
+
   const colors = {
-    active: "#4CAF50",
-    activeStroke: "#2e7d32",
-    inactive: "#e0e0e0",
-    inactiveStroke: "#999",
-    hover: "#66BB6A"
+    active: token('--coauthor', '#4CAF50'),
+    hover:  token('--coauthor-hover', '#66BB6A'),
+    land:   token('--land', '#e3e3e3'),
+    stroke: token('--land-stroke', '#ffffff')
   };
 
   /* ==================================================================
@@ -315,16 +326,17 @@
     maxBoundsViscosity: 0.75
   });
 
-  // Carto Positron: a light basemap that lets the country colours read.
-  // For the plain OpenStreetMap tiles, replace the URL by
-  // 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png' and drop `subdomains`.
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-    subdomains: 'abcd',
-    maxZoom: 19,
-    noWrap: true,                    // no repeated, uncoloured copies of the world
-    bounds: [[-90, -180], [90, 180]]
-  }).addTo(map);
+  // No tile basemap at all: the country polygons below are the whole map, so
+  // there are no place names, no repeated copies of the world, and the sea is
+  // simply the #map background colour (--sea).
+  //
+  // If you ever want tiles back, add for instance a label-free Carto layer:
+  //   L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png', {
+  //     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+  //     subdomains: 'abcd', noWrap: true, bounds: [[-90, -180], [90, 180]]
+  //   }).addTo(map);
+  map.attributionControl.addAttribution(
+    'Boundaries: <a href="https://www.naturalearthdata.com/">Natural Earth</a>');
 
   // Frame the inhabited world, and keep it framed on resize until the
   // visitor moves the map themselves.
@@ -385,10 +397,10 @@
         style: function (feature) {
           const hasCoauthors = !!coauthorsByCountry[getCountryCode(feature)];
           return {
-            fillColor: hasCoauthors ? colors.active : colors.inactive,
-            fillOpacity: 0.7,
-            color: hasCoauthors ? colors.activeStroke : colors.inactiveStroke,
-            weight: hasCoauthors ? 1.2 : 1,
+            fillColor: hasCoauthors ? colors.active : colors.land,
+            fillOpacity: 1,              // opaque: nothing underneath to blend with
+            color: colors.stroke,
+            weight: hasCoauthors ? 1 : 0.8,
             opacity: 1
           };
         },
@@ -404,10 +416,10 @@
             layer.bindTooltip(name + ' — ' + n + (n > 1 ? ' co-authors' : ' co-author'),
                               { sticky: true, className: 'coauthor-tooltip' });
             layer.on('mouseover', function () {
-              this.setStyle({ fillColor: colors.hover, fillOpacity: 0.9 });
+              this.setStyle({ fillColor: colors.hover, weight: 2 });
             });
             layer.on('mouseout', function () {
-              this.setStyle({ fillColor: colors.active, fillOpacity: 0.7 });
+              this.setStyle({ fillColor: colors.active, weight: 1 });
             });
           }
         }
