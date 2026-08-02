@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <meta name="description" content="AI can do math. What now? - blog post by Léonard Brice">
+  <title>AI can do math. What now?</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="favicon.ico">
+</head>
+<body>
+  <header>
+    <div class="profile-photo">
+      <img src="photo.jpeg" alt="Léonard Brice">
+    </div>
+    <div class="header-content">
+      <h1>Léonard Brice</h1>
+      <p>theoretical computer science and game theory</p>
+      <div class="contact-icons">
+        <a href="https://orcid.org/0000-0001-7748-7716" target="_blank" title="ORCID">
+          <img src="svgviewer-output.svg" alt="ORCID" class="icon">
+        </a>
+        <a href="https://scholar.google.com/citations?user=lnrd.brice" target="_blank" title="Google Scholar">
+          <img src="google-scholar.svg" alt="Google Scholar" class="icon">
+        </a>
+        <a href="mailto:leonard.brice@ist.ac.at" title="Email">
+          <img src="email.svg" alt="Email" class="icon">
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="index.html#viewpoints">Back to viewpoints</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <section>
+      <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI can do math. What now?</title>
+</head>
+<body>
+<article>
+<h1>AI can do math. What now?</h1>
+<p>The news was not widely discussed in media, but it produced a small
+earthquake in our research communities: in May 2026, the company OpenAI
+announced that one of its internal Large Language Models (LLM) had
+solved an 80-years-old open geometry problem, in a fully autonomous
+fashion.</p>
+<p>This achievement comes after a few similar announcements. In the long
+list of math problems that were proposed by the Hungarian mathematician
+Paul Erdős, several of them were announced to be solved by AI (often
+even by the publicly available models) in the previous months. But the
+nature of the accomplishment was always questionable: the first ones
+appeared to be already solved somewhere else under a different wording,
+and the other ones were considered, after the fact, quite simple
+problems that would have been solved easily by a human if someone had
+spent enough time on it. The unit distance conjecture lies however
+undoubtedly in another category.</p>
+<p>The wording is simple: given <em>n</em> points to be set anywhere on
+a plane, what is the maximal number of pairs of points that can be at
+distance exactly 1cm from each other? For example, four points can be
+arranged in a square, where each edge is 1cm long. By flattening the
+square into a diamond, one diagonal can be made 1cm long as well: that
+maximal number is then 5. With a large number of points, the Erdős
+conjectured in 1946 that it was impossible to do significantly better
+than arranging them in a simple grid; a conjecture that many expert
+mathematicians, including Fields medallists, tried to prove or disprove,
+until OpenAI’s LLM succeeded (and disproved it, by exhibiting a much
+more intricate construction)<sup id="fnref1"><a href="#fn1">1</a></sup>.</p>
+<p>A few years ago, AI was barely able to solve secondary school math
+problems; but it has now become clear that logical and mathematical
+reasoning, one of the abilities that we have always considered
+monopolies of the human genius, will be shared with machines that even
+<em>outperform</em> us, not only by working faster, but by producing
+some reasonings that humans fail to have. Let us leave aside all
+fantasies about artificial superhumans, which seek to see in AI the
+moment where we became gods. AI is a machine, and as a machine, it
+automates tasks. What we urgently need to discuss is which tasks it can
+automate, and which tasks we want it to automate.</p>
+<p>Humankind will not benefit from an AI that passes Turing’s test (that
+is, that cannot be distinguished from a human through exchange of
+written messages), and that ensures an always available but fictional
+presence, in a society where actual social interaction fades away.
+Neither will it from AI systems embedded in fridges, glasses, and light
+bulbs for the mere purpose of selling those items at higher prices,
+disregarding the tremendous material and energy cost of such a blind
+large-scale implementation – not to mention all security issues each
+such item would face. But it can benefit from AI systems performing
+tasks we would have collectively considered worth delegating to them:
+reducing painful workloads, curing diseases… and, why not, solving math
+problems. But this cannot happen without deeply transforming research
+(and it already does), nor without questioning the relation we have with
+our own knowledge and intelligence.</p>
+<h2>What kind of math does an LLM do?</h2>
+<p>It is not yet clear what the problems are that AI can solve, and
+above all how it will evolve. Is AI only able to mimic human reasoning,
+and therefore to solve problems humans can solve? The latest news
+suggests the opposite: OpenAI’s LLM solved the unit distance problem by
+using results from two different fields, discrete geometry and algebraic
+number theory, and techniques that could have been usable only by
+someone who is expert in both, which is not easy to find. As the
+mathematician Thomas Bloom says with some emphasis, “<em>AI is helping
+us to more fully explore the cathedral of mathematics we have built over
+the centuries”</em>. AI compresses and mobilises knowledge that no human
+being can master entirely.</p>
+<p>Moreover, one should bear in mind that AI training is made of several
+steps. LLMs are initially designed by being trained on huge amounts of
+already existing texts, mostly found on the Internet – including math
+manuals and research papers. From that, it learns how to generate
+sentences that are <em>plausible</em> compared to the corpus it has been
+exposed to – like an extremely powerful smartphone autocomplete tool.
+This phase is usually called <em>pre-training</em>, and is followed by
+<em>fine-tuning</em>, where it learns how to behave as desired, based on
+interactions with humans who give positive or negative feedback on the
+content it generates. But more and more of the AI power comes from an
+additional layer, <em>automatic reinforcement learning</em>: the model
+is tested on tasks for which its output can be objectively and
+automatically verified, and learns how to perform them in an autonomous
+way. Unlike fine-tuning, automatic reinforcement learning can be carried
+out at a speed that is unthinkable when there is a human in the loop;
+and unlike pre-training, the AI generates its understanding of how to
+carry out tasks based on its own experience, not on the human way of
+doing. AI does not only repeat a mashed version of what it has been
+trained on: more and more, it creates its own knowledge.</p>
+<p>One can then ask the opposite of the above: will AI be able to solve
+<em>all</em> problems a human can solve, and beyond, making human
+intervention futile? This question is obviously much harder to answer,
+but what is certain is that we are not there yet. OpenAI’s breakthrough
+may also be explained by some peculiarities of the unit distance problem
+that made AI intervention particularly useful. A summary of the model’s
+chain of thought is available online, and suggests that it has quickly
+concentrated its efforts, after analysing where the attempts to prove
+the conjecture have failed, on trying to construct a counter-example.
+This is very similar to what a researcher should do in the same
+situation, although the widespread belief that Erdős’s conjecture was
+true misled most mathematicians into the wrong direction. But the
+strength of AI is speed, and patience: it can explore thousands of
+directions that humans would discard at first glance, and check in a few
+seconds an example for which a human would have required hours. In the
+model’s chain of thought, this ability to explore seems to have played a
+significant role – together with the sudden idea of using tools from a
+completely different field. This highlights two aspects of mathematical
+reasoning in which AI can easily outperform humans: example exploration,
+and recognising which tools can be useful in a given situation. Both
+were very useful for this specific problem, but may not always have the
+same weight.</p>
+<p>What about the future, then? AI has limitations, but progressively
+overcomes them. Hallucination is of course the main issue: since an LLM
+aims to generate text that looks <em>plausible</em> with regards to its
+training, it will often tend to write proofs that contain handwavy
+arguments, or even use theorems that never existed – a very frustrating
+experience that all researchers have now faced. But LLMs are also
+increasingly good at reading proofs, understanding them… and spotting
+mistakes and shortcuts. And if that is not enough, they are not alone
+there: a concurrent dynamic research field is that of <em>proof
+assistants</em>, that is, logic-based software that can verify proofs
+and guarantee their correctness; provided that proofs are written in a
+specific language that they can interpret. So far, proof assistants have
+not succeeded in imposing themselves as a routine tool for substantially
+long proofs: they require too much precision, and phrasings such as “it
+is obvious that”, “the same reasoning applies”, or “by a classical
+result”, often legitimate, are not an option. OpenAI’s proof is written
+in plain English, and had to be verified by flesh-and-blood
+mathematicians. But proof assistants are already used for reinforcement
+learning, and will probably play a more and more important role, now
+that AI has reached this stage.</p>
+<p>If some human-solvable problems keep resisting AI, that would
+probably be due to the limited presence to the world that AI has:
+despite its outstanding performance, it exchanges with its environment
+only through chains of zeros and ones. Researchers, on the other hand,
+often find inspiration by drawing on a board, or by exemplifying their
+problems on instances that mean something to them. Intuition is a
+mysterious process, hard to explain after the fact; and it might be the
+case that it sometimes originates in areas of our brain and of our
+environment which have supposedly nothing to do with the problem we are
+studying, and to which AI may never have access. It is in that regard
+worth noting that the unit distance problem was solved by a generalist
+AI, and not by one specialised in writing proofs and trained only for
+that purpose. Should we deduce that all this other knowledge, from
+poetry to economics, also helps AI, in an indirect and diffuse way, to
+be smarter at math? If that is the case, then there is still hope that
+the knowledge that we have and that remains alien to AI, the one that we
+get from our senses, our emotions, and our immediate experience of life,
+sometimes helps us in the same way to beat it on its own turf. But that
+hope is quite uncertain.</p>
+<h2>What researchers and AI can do together</h2>
+<p>For now, and most likely for still some time, AI and human
+researchers will have to work as a team. In 2024, the famous
+mathematician Terence Tao compared an OpenAI model to a <em>“mediocre,
+but not completely incompetent, graduate student”</em>. With this
+comparison, which graduate students have probably all appreciated, he
+meant that he could use it to outsource some parts of his work, provided
+that he supervises its reasoning, suggests directions, and flags its
+mistakes through repeated interactions. I may have shared that
+impression at the time, but in 2026, it no longer accurately describes
+the situation. Personally, my use of LLMs in my research has
+significantly increased across the past few months, but never really to
+outsource segments of reasoning. In line with what I said earlier, I use
+it mostly to suggest techniques and results from the literature that
+could help me (which is closer to what a supervisor does) and for
+example exploration (for which it exhibits a patience neither a graduate
+student nor a professor has). Concretely, AI-assisted research takes the
+shape of a long dialogue between the researcher and the machine, where
+each compensates for the other’s weaknesses.</p>
+<p>Comparing AI to a specific category of researchers is quite reductive
+for both sides, and hides the fact that AI is taking a genuinely new
+position which is not yet stabilised, and which is about to reconfigure
+the whole landscape of the research world. To some extent, this is just
+a new step of an evolution that is far more ancient. Calculation
+(including for the purpose of example exploration) used to be a painful
+task of researchers, whose barriers have been pushed back decade after
+decade. And as for recognising which tools and which theory are useful
+to address a problem, it was already much easier five years ago than
+forty years ago, when researchers had to search their institutions’
+libraries every time they needed some literature. Each such step in this
+technical evolution made us more efficient, and was in many respects
+salutary, since the cumulative nature of science entails that we study
+more and more complex matters and build on a richer and richer ground.
+However, they <em>did</em> transform research, and even though it made
+us more efficient, it is worth wondering whether they lead us to the
+right direction.</p>
+<h2>A cognitive crisis?</h2>
+<p>The most obvious negative impact those tools may present is on
+researchers’ training. Working on a problem almost always serves a dual
+purpose: solving the problem itself, but also allowing the researcher to
+acquire new technical skills and a new understanding of the field. After
+all, before we can actually produce genuinely new results, we all had to
+solve hundreds of already closed problems during our schooling, from
+primary school to Master’s degree. And even after starting actual
+research, it usually takes years, if not decades, to acquire the deep
+understanding that makes a researcher able not only to solve problems,
+but to build theories. The arrival of AI seems to mean that we will need
+fewer problem-solvers, and more theory-builders: but how to create
+theory-builders, if not through problem-solving? Will we need to spend
+more time forcing ourselves to work on problems that AI could solve,
+only for training purposes? Will we have to extend Bachelor’s or
+Master’s studies, or to make study-only PhDs, asking students to write
+their theses on questions that AI has already answered?</p>
+<p>And the question applies not only to individual researchers’
+training, but to the whole science community. We do not solve problems
+only to solve problems: most of the time, we do it to create a broader
+understanding, individually and collectively, of the objects we study.
+And this will be a crucial question, that I would expect to appear in
+front of us in the coming years, if not months: what does it really mean
+for science if machines generate and verify a proof for a theorem, but
+no human being really understands it?</p>
+<p>One may argue that, if outsourcing tasks to AI teaches us much less
+than performing them alone, this impact is compensated by the
+acceleration made possible: we learn much less from an individual task,
+but we conduct many more of them, and may end up learning roughly at the
+same rate. Quantitatively speaking, this hypothesis is reasonable. But
+the critical point is <em>qualitative</em>: we do not learn the same
+thing, nor in the same way. And we do not even know what we need to
+learn anymore.</p>
+<p>This loss of bearings is already palpable, especially among
+undergraduate students who realise that so many things they have learnt
+are now easily done by some LLM. As a teaching assistant, I have seen
+how this creates a new distance between students and the content they
+are taught, epitomised in the temptation to use AI to cheat in exams –
+we would be quite wrong if we interpret that as a mere new tool in a
+cat-and-mouse game. We are facing a crisis in our relationship with our
+own cognitive abilities; a crisis corresponding to what the French
+sociologist Émile Durkheim used to call a situation of <em>anomie</em>,
+where the sudden lapsing of social norms generates a deep feeling of
+insecurity.</p>
+<p>It is not the first time that humankind has faced such a crisis. In
+an ancient Greek society that was progressively abandoning its ancient
+oral traditions, Socrates was known to reject writing: unable to create
+a dialogue with the reader, unable to adapt to them, and conducive to
+creating the illusion of knowledge in a person that reads, but does not
+really understand. His fable on the matter, as reported by Plato, sounds
+strangely familiar: Socrates tells us how, when the god Thot offered
+writing to the Egyptian king Thamus, the latter declined it with these
+words: “this discovery of yours create forgetfulness in the learners’
+souls, because they will not use their memories; they will trust to the
+external written characters and not remember of themselves.”
+Interestingly, Thot’s gift is presented as a <em>pharmakon</em>, a Greek
+word that means simultaneously cure and poison.</p>
+<p>The introduction of printing in Europe, in the fifteenth century<a
+href="#fn2" class="footnote-ref" id="fnref2"
+role="doc-noteref"><sup>2</sup></a>, did not only spread new ideas: by
+making the written records of knowledge much more accessible, it also
+entailed a long process of redefining the norms of cognition. Across
+Antiquity and the Middle Ages, the cultural conception of a powerful
+mind gave a strong importance to memory. Illiterate low-class workers
+needed to remember everything they had to know; monks and intellectuals
+would spend years learning the full text of entire books, and the ones
+performing the best at that task were also the ones more able to produce
+new intellectual content, and were admired and celebrated as such. Of
+what use, however, was that ability in a world where printing was
+suddenly making books widely reproducible and accessible? In two
+centuries, learning long texts by heart became a mere game for bored and
+old-school aristocrats. There starts a long process of reconstructing
+social norms around cognitive abilities: through the Enlightenment, the
+focus slid to <em>reason</em>, and it is only with the emergence of
+psychology as a discipline in the nineteenth century that the modern
+concept of <em>intelligence</em>, as an individual and measurable skill,
+was forged. Crucially, memory is still necessary in every reasoning
+process, and as such, it is still one aspect of intelligence among
+others: but it is no longer the bottleneck, and that made it possible to
+construct a broader understanding of what our brains are actually able
+to do.</p>
+<p>This modern concept of intelligence has already been challenged, from
+the very beginning of computing. The Internet has, of course, extended
+the impact of printing to the role of memory, by making a large part of
+human knowledge almost immediately accessible. Mental calculation, which
+used to be considered an immediately visible sign of intelligence, does
+not have the same importance now that we all have a calculator in our
+pocket. Around the 1950s and 60s, computing has even brought such
+optimism in the scientific community that many researchers believed that
+there would soon no longer be hard or interesting problems in pure
+mathematics, and that future challenges would only lie in modelling the
+world as it is, that is, in physics, biology, and other applied
+disciplines.</p>
+<p>In parallel with this movement, the concept of intelligence is
+continuously questioned, with approaches that, once again, tend to
+enlarge it. The notion of <em>emotional intelligence</em>, for example,
+was created only in 1990, and would have been considered an oxymoron a
+few decades earlier; it is now widely used. This is already a huge
+cultural evolution, and anticipates a new understanding of cognition of
+which intelligence, or what we nowadays mean by it, would only be a
+narrow aspect, analogous to what memory is to intelligence. But building
+that new understanding will most likely take decades; and in the
+meantime, we will have to navigate the unknown.</p>
+<p>Alarms about AI intrinsically making us lazy, stupid, or unable to
+learn anything new, must therefore be taken with a pinch of salt. But
+perhaps the main danger lies elsewhere: like books, computers, and
+mobile phones, AI augments our cognition with an external tool, and thus
+creates a new dependence on something that is not completely ours.</p>
+<h2>The pope, Karl Marx, and Elon Musk</h2>
+<p>In his encyclical <em>Magnifica Humanitas</em>, Pope Leo XIV called
+to <em>“disarm AI”</em>. His point of view is summarised in the
+opposition laid out in the introduction: the development of AI may
+follow the path either of the Tower of Babel, or of the reconstruction
+of Jerusalem. On the one hand, a megalomaniac project competing with God
+himself, in the name of an artificial unity in which all differences are
+denied – one people, one language, one monument. On the other hand, a
+truly collective work, where each person brings their contribution, in
+their singularity. No need to be a devoted Christian (I am not, if the
+clarification is needed) to understand the metaphor.</p>
+<p>The encyclical’s focus on AI remains very general, and constitutes
+only a cautious call to think further, as is usually expected from a
+pope. But this framework can give us an angle to question the
+introduction of AI in research. From a model where each scientist had
+their area of expertise and their way of thinking, we slowly slide to
+one where a substantial part of our ideas come from the exactly same LLM
+that is used by thousands of other scientists around the world – and it
+is harder and harder, when I write a paper, to say which part could not
+have been written by someone else. By gathering all pieces of the
+“cathedral” of mathematics into one universal tool, AI presents an
+obvious risk of eroding its diversity. Science may face what agriculture
+faced: a colourful landscape of multiple practices and varieties being
+replaced by monocultures, better suited to massive production on the
+short term… but deprived of alternative options, and at the end of the
+day unable to adapt to changing conditions. A new Tower of Babel?</p>
+<p>To follow the path of the reconstruction of Jerusalem, researchers
+need to keep, with their singularities, control of the knowledge
+production process. This is precisely what is challenged, when larger
+and larger parts of that process are made autonomously, outside of their
+minds. Here, a surprisingly relevant author is Karl Marx, in his
+<em>Fragment on Machines</em> in <em>Grundrisse</em>, and later on in
+<em>Das Kapital</em>. In Marx’s theory, machines capture the workers’
+know-how into matter, <em>dead labour</em>, of which the workers,
+<em>living labour</em>, only become an appendage. The industrial
+revolution has therefore converted millions of artisans and farmers, who
+used to have full control and a deep understanding over their production
+process, into proletarians that only perform a fragment of that process
+somewhere in a factory. In his view, humans fulfil themselves through
+the conscious transformation of the world; by dispossessing workers of
+their knowledge and control, and by making labour alien to its purposes,
+mechanisation is therefore a source of <em>alienation</em> – a concept
+he develops in the <em>1844 Manuscripts</em>. This evolution culminated
+long after Marx’s intuition, under Taylorism, when it was theorised by
+capitalists themselves. But what neither Marx nor Taylor anticipated was
+that in the twenty-first century, the very category of labour that used
+to be the most protected one, cognitive labour, has become the most
+threatened.</p>
+<p>Marx predicted a disappearance of artisanal craft and traditional
+agriculture, which never fully happened: even though they compete with
+an industry that makes much cheaper products in larger quantities, they
+marginally survive because some part of the population is willing (and
+affluent enough) to support it, and keeps consuming the goods it
+produces. The same phenomenon is likely to happen at large scales with
+art, for example: even if LLMs become able to write excellent novels,
+reading is also a dialogue with an author and as such, AI-generated
+texts don’t hold the same interest. But as for science, I don’t believe
+any engineer will be willing to use only theorems that were proven
+without AI intervention.</p>
+<p>What makes this framework relevant is that if technology is not
+neutral, it always serves some human purpose. The control workers used
+to have over their work in artisanry does not vanish: it is transferred
+to the company that owns the machine, or that produces it – and to those
+who own that company. AI is currently being developed by a handful of
+huge firms, whose names are known: OpenAI, Anthropic, Google, Meta,
+Mistral, DeepSeek, xAI. All of them seek profit, and are bound, with
+different approaches, to some geopolitical bloc and some political
+project. And the choices made in the types of AI they build reflect
+those allegiances. The control that some of those companies are
+progressively getting over the making of science should be considered
+the most worrying aspect of this evolution – all the more so when some
+of their owners seem to develop a strange passion for Roman salutes.</p>
+<p>This may be the first question OpenAI’s achievement should have
+raised: what if the company decides, tomorrow, that it wants to keep its
+more powerful models for itself? Do we want to live in a world where a
+private firm, alone, owns tools that can solve any problem before any
+scientist had the time to consider it? Or, at least, where a few persons
+can choose which field of research can benefit from this enhancement,
+and which will lag behind? Yes, we all have the same fields in mind.</p>
+<h2>A very temporary conclusion</h2>
+<p>Never in human history have we seen a technology being developed so
+fast. Advances are now measured in months, and predictions are sometimes
+overturned within a few weeks. When you read these lines, many aspects
+of what I describe will probably be outdated. Even in my personal
+testimony, I am only talking about a tool I am currently learning to use
+– a tool that continuously transforms itself. Like so many of us, I
+anxiously feel the ground moving below my feet.</p>
+<p>The closest to a certainty that I have is the following: AI is
+changing everything about science, and there is no way back. But there
+are multiple ways forward. Huge possibilities are now open, to produce
+new knowledge; but it will benefit us provided that it remains
+<em>science</em>, that is, production of a new understanding of the
+world we live in, enabling humanity to improve its dominion over its
+future. That is only possible through a <em>Jerusalem AI</em>, in which
+the choices made are the outcome of a truly democratic process. We
+therefore need to hold both ends of the rope at once, to propose a
+different direction: on the one hand, the governance, and the place of
+private companies, states, academia and democracy – here, proposals such
+as the <em>CERN for AI</em><sup id="fnref3"><a href="#fn3">3</a></sup>, or any idea to develop
+AI outside of the control of a private company or a specific state, are
+an interesting start. On the other hand, the technical and scientific
+challenge: is the AI we know, with its gigantic and fully centralised
+neural networks, with its training processes pumping up our private data
+and exploiting precarious click workers, the only way to make AI? Among
+the technical choices that have been made over the past years, which
+ones are scientific breakthroughs, and which ones are simply
+economically, politically, and ideologically driven? Answering this
+question is now one of the most important tasks academic computer
+scientists have in front of them.</p>
+<section class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>OpenAI, “Planar Point Sets with Many Unit Distances”:
+<a href="https://cdn.openai.com/pdf/74c24085-19b0-4534-9c90-465b8e29ad73/unit-distance-proof.pdf">https://cdn.openai.com/pdf/74c24085-19b0-4534-9c90-465b8e29ad73/unit-distance-proof.pdf</a><a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p>Printing was invented around the seventh century century
+in China – and similarly, writing originated in Mesopotamia, and reached
+Greece much later. In this article, I focus on examples taken from the
+continent I know.<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
+<li id="fn3"><p><a href="https://cfg.eu/building-cern-for-ai/">https://cfg.eu/building-cern-for-ai/</a><a href="#fnref3"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+    </section>
+  </article>
+
+  <footer>
+    <p>&copy; 2025 Dr. Léonard Brice. All rights reserved.</p>
+  </footer>
+</body>
+</html>
